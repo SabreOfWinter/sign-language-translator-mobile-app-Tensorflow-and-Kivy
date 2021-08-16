@@ -8,6 +8,11 @@ def extract_videos():
     for label in os.listdir(videos_train_path):
         if label not in os.listdir(frames_train_path):
             os.mkdir(frames_train_path + '/' + label)
+    
+    #Go through all training videos label by label to extract all frames 
+    for label in os.listdir(videos_train_path):
+        videos_path = videos_train_path + '/' + label
+        frames_path = frames_train_path + '/' + label
 
 def main():
     pass
