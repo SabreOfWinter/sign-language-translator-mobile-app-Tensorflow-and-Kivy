@@ -14,6 +14,11 @@ def extract_videos():
         videos_path = videos_train_path + '/' + label
         frames_path = frames_train_path + '/' + label
 
+        #Loop through each video in the current class to extract the frames 
+        for video in os.listdir(videos_path):
+            video_path = videos_path + '/' + video
+            video_name = video.split('.')[0]
+
 def main():
     pass
 
