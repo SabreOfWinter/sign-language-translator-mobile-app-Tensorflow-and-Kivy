@@ -1,1 +1,1 @@
-# sign-lanague-translator-tensorflow-android-app
+# sign-language-translator-mobile-app-Tensorflow-and-Kivy 
