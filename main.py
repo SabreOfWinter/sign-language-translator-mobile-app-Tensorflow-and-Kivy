@@ -1,5 +1,7 @@
 import os
 import tensorflow as tf
+import cv2
+import numpy as np
 
 def extract_videos():
     videos_train_path = '' #Directory for videos to be classified. Every video should be divided into folders for each class (E.g. './Data/Sign_hello/' would have all the videos of the sign hello) 
@@ -19,6 +21,12 @@ def extract_videos():
         for video in os.listdir(videos_path):
             video_path = videos_path + '/' + video
             video_name = video.split('.')[0]
+
+##########
+    #Builds an array of the sequence of images
+##########
+def build_dataset(train_x, train_y, data_path):
+    training_data = []
 
 ##########
     #Used to convert LRCN SavedModel format to .tflite format
