@@ -27,6 +27,13 @@ def extract_videos():
 ##########
 def build_dataset(train_x, train_y, data_path):
     training_data = []
+    number_of_classes = 0
+    number_of_samples = 0
+
+    for path in os.listdir(data_path): #Loop through each class
+        number_of_classes += 1
+        
+
 
 ##########
     #Used to convert LRCN SavedModel format to .tflite format
