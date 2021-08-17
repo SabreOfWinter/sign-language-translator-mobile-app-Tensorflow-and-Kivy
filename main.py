@@ -33,6 +33,11 @@ def build_dataset(train_x, train_y, data_path):
     for path in os.listdir(data_path): #Loop through each class
         number_of_classes += 1
         
+        for video in os.listdir(data_path + '/' + path): #Each video+
+            current_frame = 0 #Track the number of frames processed in a video
+            number_of_samples += 1 #Need to know how many samples there are to reshape the dataset array to fit the network
+            train_y.append(number_of_classes - 1) #Minus 1 to maintain index range from 0 - x, while also counting the total number of classes
+
 
 
 ##########
