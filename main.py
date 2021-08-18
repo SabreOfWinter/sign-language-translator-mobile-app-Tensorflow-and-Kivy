@@ -12,6 +12,7 @@ cnn_layer_1 = 32
 cnn_layer_2 = 64
 cnn_layer_3 = 128
 lstm_layer = 256
+epochs = 5
 
 def extract_videos():
     videos_train_path = '' #Directory for videos to be classified. Every video should be divided into folders for each class (E.g. './Data/Sign_hello/' would have all the videos of the sign hello) 
@@ -61,7 +62,7 @@ def build_dataset(train_x, train_y, data_path):
 
 ##########
     #LRCN model
-    #the model was trained and loaded 5 times for each implementation
+    #the model was trained and saved after each epoch
 ##########
 def train(train_x, train_y, number_of_classes):   
     model = Sequential()
@@ -86,6 +87,18 @@ def train(train_x, train_y, number_of_classes):
     model.add(Dense(units=number_of_classes, activation='softmax')) #The network's output layer fill have a node for each sign
 
     model.compile(optimizer='adam', loss=tf.keras.losses.CategoricalCrossentropy(), metrics='accuracy')
+
+    #Training on the compliled model
+    model_path = '' #Directory to where the trained network should be saved
+    model.fit(tf.convert_to_tensor(train_x, np.float32), train_y, epochs=1)
+
+    model.save(str(model_path +'model_1'))
+
+    #Train for the specified number of epochs, save each trained network 
+    for i in range(epochs):
+        loaded_model = tf.keras.models.load_model(str(model_path + str('model_' + i+1)))
+        loaded_model.fit(tf.convert_to_tensor(train_x, np.float32), train_y, epochs=1) #Train the model
+        loaded_model.save(str(model_path + str('model_' + i+2))) 
 
 ##########
     #Used to convert LRCN SavedModel format to .tflite format
