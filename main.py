@@ -3,7 +3,8 @@ import cv2
 import numpy as np
 import tensorflow as tf
 from keras.models import Sequential
-from keras.layers import TimeDistributed, Conv2D, MaxPooling2D
+from keras.layers import TimeDistributed, Conv2D, MaxPooling2D, Flatten, Dropout
+from keras.layers.recurrent import LSTM
 
 frame_height = 64
 frame_width = 36
@@ -71,7 +72,16 @@ def train(train_x, train_y, number_of_classes):
 
     model.add( TimeDistributed( Conv2D(cnn_layer_3, (4,4), activation='relu')) ) 
     model.add( TimeDistributed( MaxPooling2D((3,3), strides=(2,2)) ) )
+
+    model.add(TimeDistributed(Flatten()))
     
+    #LSTM with no dropout applied
+    model.add(LSTM(256, return_sequences=False))
+    
+    #LSTM with dropout applied before and after
+    # model.add(Dropout(0.8))
+    # model.add(LSTM(256, return_sequences=False, dropout=0.8))
+
 ##########
     #Used to convert LRCN SavedModel format to .tflite format
 ##########
