@@ -1,7 +1,8 @@
 import os
-import tensorflow as tf
 import cv2
 import numpy as np
+import tensorflow as tf
+from keras.models import Sequential
 
 def extract_videos():
     videos_train_path = '' #Directory for videos to be classified. Every video should be divided into folders for each class (E.g. './Data/Sign_hello/' would have all the videos of the sign hello) 
@@ -48,6 +49,13 @@ def build_dataset(train_x, train_y, data_path):
             train_x = np.array(training_data, dtype=object)
 
     return(train_x, train_y, number_of_samples, number_of_classes)
+
+##########
+    #LRCN model
+    #the model was trained and loaded 5 times for each implementation
+##########
+def train(train_x, train_y, number_of_classes):   
+    model = Sequential()
 
 ##########
     #Used to convert LRCN SavedModel format to .tflite format
