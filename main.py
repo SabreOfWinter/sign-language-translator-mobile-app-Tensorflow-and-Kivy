@@ -8,6 +8,8 @@ from keras.layers import TimeDistributed, Conv2D, MaxPooling2D
 frame_height = 64
 frame_width = 36
 cnn_layer_1 = 32
+cnn_layer_2 = 64
+cnn_layer_3 = 128
 
 def extract_videos():
     videos_train_path = '' #Directory for videos to be classified. Every video should be divided into folders for each class (E.g. './Data/Sign_hello/' would have all the videos of the sign hello) 
@@ -64,6 +66,12 @@ def train(train_x, train_y, number_of_classes):
     model.add( TimeDistributed( Conv2D(cnn_layer_1, (3,3), activation='relu' ), input_shape=(None, frame_height, frame_width, 1) ) )
     model.add( TimeDistributed( MaxPooling2D((2,2), strides=(1,1)) ) )
 
+    model.add( TimeDistributed( Conv2D(cnn_layer_2, (4,4), activation='relu') ) )
+    model.add( TimeDistributed( MaxPooling2D((2,2), strides=(2,2)) ) )
+
+    model.add( TimeDistributed( Conv2D(cnn_layer_3, (4,4), activation='relu')) ) 
+    model.add( TimeDistributed( MaxPooling2D((3,3), strides=(2,2)) ) )
+    
 ##########
     #Used to convert LRCN SavedModel format to .tflite format
 ##########
