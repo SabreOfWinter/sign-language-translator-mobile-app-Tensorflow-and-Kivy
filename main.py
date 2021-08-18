@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import tensorflow as tf
 from keras.models import Sequential
-from keras.layers import TimeDistributed, Conv2D, MaxPooling2D, Flatten, Dropout
+from keras.layers import TimeDistributed, Conv2D, MaxPooling2D, Flatten, Dropout, Dense
 from keras.layers.recurrent import LSTM
 
 frame_height = 64
@@ -11,6 +11,7 @@ frame_width = 36
 cnn_layer_1 = 32
 cnn_layer_2 = 64
 cnn_layer_3 = 128
+lstm_layer = 256
 
 def extract_videos():
     videos_train_path = '' #Directory for videos to be classified. Every video should be divided into folders for each class (E.g. './Data/Sign_hello/' would have all the videos of the sign hello) 
@@ -76,11 +77,15 @@ def train(train_x, train_y, number_of_classes):
     model.add(TimeDistributed(Flatten()))
     
     #LSTM with no dropout applied
-    model.add(LSTM(256, return_sequences=False))
+    model.add(LSTM(lstm_layer, return_sequences=False))
     
     #LSTM with dropout applied before and after
     # model.add(Dropout(0.8))
     # model.add(LSTM(256, return_sequences=False, dropout=0.8))
+
+    model.add(Dense(units=number_of_classes, activation='softmax')) #The network's output layer fill have a node for each sign
+
+    model.compile(optimizer='adam', loss=tf.keras.losses.CategoricalCrossentropy(), metrics='accuracy')
 
 ##########
     #Used to convert LRCN SavedModel format to .tflite format
