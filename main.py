@@ -3,6 +3,11 @@ import cv2
 import numpy as np
 import tensorflow as tf
 from keras.models import Sequential
+from keras.layers import TimeDistributed, Conv2D, MaxPooling2D
+
+frame_height = 64
+frame_width = 36
+cnn_layer_1 = 32
 
 def extract_videos():
     videos_train_path = '' #Directory for videos to be classified. Every video should be divided into folders for each class (E.g. './Data/Sign_hello/' would have all the videos of the sign hello) 
@@ -56,6 +61,8 @@ def build_dataset(train_x, train_y, data_path):
 ##########
 def train(train_x, train_y, number_of_classes):   
     model = Sequential()
+    model.add( TimeDistributed( Conv2D(cnn_layer_1, (3,3), activation='relu' ), input_shape=(None, frame_height, frame_width, 1) ) )
+    model.add( TimeDistributed( MaxPooling2D((2,2), strides=(1,1)) ) )
 
 ##########
     #Used to convert LRCN SavedModel format to .tflite format
